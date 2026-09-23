@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI 高还原与细节排查"
+  short_description: "把视觉反馈转成可验证约束，读取设计证据，修复布局动效并收敛重复代码"
+  default_prompt: "使用 $ui-fidelity-workflow，根据设计稿与视觉反馈处理本轮 UI 任务，遵守指定范围并验证实际效果。"
