@@ -1,71 +1,93 @@
 # UI Fidelity Workflow
 
-从用户需求确定组件，从真实产品参考组合界面，再用明确规则验收。有 Figma 或截图时，忠实还原已确认设计。
+**从用户需求到组件，从真实参考到可运行的界面。**
+
+UI Fidelity Workflow 是面向 AI 编程助手的 UI 设计与实现 skill，连接需求澄清、组件研究、视觉设计、交互动效与交付验收。既支持没有原型时的界面创作，也支持基于 Figma 或截图的设计还原。
 
 A portable agent skill for needs-driven UI, reference-led composition and faithful design implementation.
 
-## 两个板块
+## 核心方法
 
-1. **需求到组件**：确认产品任务、视觉风格、主题颜色与目标端；缺少关键含义时主动追问，将需求映射为页面、动作、状态和验收条件。借鉴 Google PAIR 的相关方法，不把设计推断伪装成用户研究。
-2. **参考到可运行界面**：实际查看 Mobbin 或可访问的公开产品参考；没有匹配整屏时，跨产品搜索单个组件。记录来源和借用关系，组合后统一视觉，完成交互、动效与检查。
+### 需求决定组件
 
-## 当前无原型规则
+先理解产品为谁服务、用户需要完成什么任务，再确定页面结构、核心动作和组件状态。遇到会影响设计的模糊需求，主动提问确认。结合 Google PAIR 的相关方法，将产品意图转化为可实现、可检查的界面要求。
 
-| 项目 | 要求 |
+### 参考驱动设计
+
+实际查看 Mobbin 或可访问的公开产品与设计参考，分析组件如何组织信息、引导操作和表达状态，再结合当前需求完成组合与视觉统一。
+
+参考不局限于同类产品。例如，运动产品中的计时器，也可以从专注工具或时间管理产品中寻找交互与视觉思路。按组件功能跨品类搜索，让产品方向与视觉风格有更多组合空间，并保留可追溯的来源记录。
+
+### 建立清晰的视觉表达
+
+强调信息层级、鲜明的视觉识别，以及有节制的材质与层次。避免默认套用低饱和、弱对比的文艺风格，根据产品定位、用户选择和既有品牌确定设计方向，统一界面的排版、颜色、组件与状态语言。
+
+### 交互与动效共同交付
+
+将页面过渡、操作反馈和状态变化落实为可运行的体验。动效服务于理解与操作，兼顾连续交互、可中断性和减少动态效果的使用偏好。
+
+### 实际运行，主动自检
+
+在目标视口中检查视觉层级、元素对齐、可读性和组件一致性；实际播放动效，检查过渡过程与连续操作，主动定位并修复异常。通过画面与交互证据验收，而不止于代码实现完成。
+
+## 两条工作路径
+
+| 场景 | 工作流程 |
 |---|---|
-| 颜色与字体 | 中性白/灰/黑底，避免米黄；主题色由用户确认；PingFang；按实际背景检查文字与图标对比 |
-| 按钮与图标 | 普通按钮为完整胶囊，普通按钮纯色；使用有来源与许可的开源 SVG，实际描边 2px |
-| 导航与材质 | 移动端为液态玻璃悬浮胶囊；每个有内容的页面恰好一张突出材质主卡，两者分别承担导航与内容层级 |
-| 状态 | 未选中 Tab 不加悬停填色或按压缩放；选中底色与文字成对定义，保留键盘焦点 |
-| 对齐 | 检查数字/文字/图标相对容器的中心、基线、边距及重复组件一致性；几何与光学都要核对 |
-| 动效 | 页面切换、普通按钮反馈、内容进入；真实数值变化与完成状态按需加入数字/路径动画；支持中断和减少动态效果 |
-| 自检 | 同视口检查实际画面与中间帧；切页不能因临时滚动条使 Tab bar 弹动；失败先修，不以功能分数代替视觉验收 |
+| **没有原型，创建界面** | 澄清需求与设计方向 → 拆解页面和组件 → 查看并记录参考 → 组合与统一视觉 → 实现交互动效 → 运行自检 |
+| **已有 Figma 或截图，还原设计** | 确认设计范围与状态 → 读取布局、样式和资源 → 实现界面 → 同条件对照 → 诊断差异并修正 |
 
-这些规则写在 skill 中，不依赖作者账号的聊天记忆。指定还原稿、既有品牌或用户明确修改优先；风格形容词本身不自动取消规则。局部修改保持范围，不顺带重设计。
+已有设计以确认后的设计稿为依据；局部修改保持既定范围。具体组件规范、实现细则与验收清单按任务在 skill 内部文档中展开。
 
-## 安装与调用
+## 安装与使用
 
-使用 [Skills CLI](https://github.com/vercel-labs/skills)：
+使用 [Skills CLI](https://github.com/vercel-labs/skills) 一条命令安装（需要 Node.js/npm）：
 
 ```sh
 npx skills add envairrAN/ui-fidelity-workflow --skill ui-fidelity-workflow
 ```
 
-或下载仓库，将完整的 `skills/ui-fidelity-workflow/` 放入客户端支持的 skills 目录。客户端和工具权限以实际环境为准；仅发送仓库链接不代表全部文档已被读取。
+也可以下载仓库，将完整的 `skills/ui-fidelity-workflow/` 放入客户端支持的 skills 目录。工具能力与权限以实际运行环境为准。
 
-无稿示例：
+### 交给 AI 安装并执行
 
-> 使用 ui-fidelity-workflow，做一个音乐社区，包含发现、AI 描述生成与版本编辑、发布三个页面。黑白强对比＋荧光酸绿，桌面 Web 与 iPhone 浏览器。没有 Figma。关键需求不明确时先追问；先查看组件参考，再实现与逐项验收。
+将下面这段直接发给具备联网与文件操作能力的 AI：
 
-有稿示例：
+> 请安装并使用 https://github.com/envairrAN/ui-fidelity-workflow 。先完整读取仓库的 docs/agent-setup.md，按当前客户端完成安装并验证文件；然后完整读取已安装的 SKILL.md，按任务加载相关文档，将适用要求作为实现与验收条件执行。不要仅凭 README 开始生成。关键需求缺失先追问，完成后提供逐项验收证据；无法完成的步骤明确说明。
 
-> 使用 ui-fidelity-workflow，还原这个 Figma 的指定节点与状态。保留业务逻辑，先确认视口和设计版本，再实现并同条件对照；没有验证的部分明确说明。
+支持 skills 的客户端可自动发现技能；其他 AI 可按同一入口显式加载文档。具体的非交互安装命令、读取顺序与执行约定见 [AI 接入指南](docs/agent-setup.md)。安装负责让规则可用，执行与验收负责检查规则是否落实。
 
-## 内容导航
+**创建界面**
 
-| 内容 | 文件 |
+> 使用 ui-fidelity-workflow，为音乐社区设计发现、创作与发布三个页面，同时支持桌面 Web 和移动端。先确认需求与视觉方向，查看相关组件参考，再实现可交互、带动效的页面并完成自检。
+
+**还原设计**
+
+> 使用 ui-fidelity-workflow，还原这个 Figma 的指定页面。先确认设计版本、视口与交互状态，保留现有业务逻辑，实现后进行同条件对照并修正差异。
+
+需求不必一次写完整。可以先描述产品想法，由 skill 引导补齐影响设计的关键信息。
+
+## 深入阅读
+
+| 主题 | 文档 |
 |---|---|
-| 执行入口与强制合同 | [SKILL.md](skills/ui-fidelity-workflow/SKILL.md) |
-| Figma / 截图还原 | [还原流程](skills/ui-fidelity-workflow/references/figma-and-fidelity.md) · [差异诊断](skills/ui-fidelity-workflow/references/fidelity-diagnostics.md) |
-| 沟通与模糊需求 | [主动澄清](skills/ui-fidelity-workflow/references/taste-and-clarification.md) · [14 类提示词](docs/prompts.zh-CN.md) |
-| 需求、参考、跨品类搜索 | [需求](skills/ui-fidelity-workflow/references/user-needs-and-components.md) · [组合](skills/ui-fidelity-workflow/references/reference-led-composition.md) · [组件迁移](skills/ui-fidelity-workflow/references/cross-domain-components.md) |
-| 开放视觉方向与证据 | [风格库](skills/ui-fidelity-workflow/references/visual-style-library.md) · [证据册](skills/ui-fidelity-workflow/references/reference-atlas.md) |
-| 视觉、材质、动效与验收 | [视觉](skills/ui-fidelity-workflow/references/modern-product-ui.md) · [材质](skills/ui-fidelity-workflow/references/materials-and-contrast.md) · [动效](skills/ui-fidelity-workflow/references/motion-recipes.md) · [验收](skills/ui-fidelity-workflow/references/verification.md) |
-| 方法来源与许可证 | [采用范围](skills/ui-fidelity-workflow/references/adopted-methods.md) · [协作原则](docs/principles.zh-CN.md) |
+| 执行指南 | [SKILL.md](skills/ui-fidelity-workflow/SKILL.md) |
+| AI 安装与加载 | [接入指南](docs/agent-setup.md) |
+| 需求与沟通 | [需求到组件](skills/ui-fidelity-workflow/references/user-needs-and-components.md) · [主动澄清](skills/ui-fidelity-workflow/references/taste-and-clarification.md) · [使用示例](docs/prompts.zh-CN.md) |
+| 参考与组合 | [参考驱动设计](skills/ui-fidelity-workflow/references/reference-led-composition.md) · [跨品类组件](skills/ui-fidelity-workflow/references/cross-domain-components.md) · [风格库](skills/ui-fidelity-workflow/references/visual-style-library.md) · [参考记录](skills/ui-fidelity-workflow/references/reference-atlas.md) |
+| 视觉与交互 | [视觉规范](skills/ui-fidelity-workflow/references/modern-product-ui.md) · [材质与对比](skills/ui-fidelity-workflow/references/materials-and-contrast.md) · [动效方案](skills/ui-fidelity-workflow/references/motion-recipes.md) |
+| 还原与验收 | [Figma / 截图还原](skills/ui-fidelity-workflow/references/figma-and-fidelity.md) · [差异诊断](skills/ui-fidelity-workflow/references/fidelity-diagnostics.md) · [验收清单](skills/ui-fidelity-workflow/references/verification.md) |
+| 方法与原则 | [方法来源与采用范围](skills/ui-fidelity-workflow/references/adopted-methods.md) · [协作原则](docs/principles.zh-CN.md) |
 
-## 维护与验证
+## 开发与维护
 
 ```sh
 python scripts/validate.py
 python scripts/package.py
 ```
 
-验证脚本无第三方依赖，仅检查本仓库使用的简单元数据、相对引用、必要资源和分发边界，不代替浏览器与真实任务验证。打包脚本只包含 skill 与 LICENSE，输出到被 Git 忽略的 `local/`。
+验证脚本检查元数据、文档引用与分发文件；打包脚本生成可安装的 skill 包。脚本均无第三方依赖。实际视觉与交互质量仍需在浏览器和具体任务中验证。
 
-公开仓库只维护技能文档、可选动效代码、诊断脚本和必要许可；本机演示、字体、截图、旧实验与发布素材放在 `local/`，不上传。没有自动执行钩子或遥测，也不要求安装额外动画依赖。
-
-## 效果边界
-
-它是工作流，不训练模型权重，不承诺像素级还原或稳定胜过无 skill。首稿、人工迭代稿和独立对照必须分开记录；没有原型时不使用“像素还原率”，不虚构用户验证、审美提升百分比或新账号实验。来源不可达时明确说明，不将搜索摘要冒充已观察的组件。
+这是可复用的工作方法，实际效果取决于需求、参考和执行环境。交付时应说明验证依据及尚未验证的部分，效果对比以真实记录为准。
 
 Maintained by **envairrAN** · [MIT License](LICENSE)

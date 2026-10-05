@@ -7,6 +7,14 @@ description: Turn user needs into page and component requirements, confirm produ
 
 两部分：先确定为什么需要这些页面与组件，再依据用户确认的视觉方向和真实参考实现。不要凭“跑步/阅读/高级”等词自行定义产品，不用通用卡片模板代替需求分析。
 
+## 加载与执行约定
+
+Read this entire file before acting. Follow the task-specific route and load its required references before each relevant stage. Treat applicable requirements as acceptance criteria; do not claim compliance without observed evidence.
+
+- 本文件是执行入口，README 和技能描述不能替代它。相关文档路径以本文件所在目录为基准；必读文件缺失时先补齐，不能自行猜测内容。
+- 开始前确定无稿创建、有稿还原或局部修复，列出本轮适用检查项；按下方路径分阶段读取，不一次加载全部资料。
+- 完成后逐项给出证据；必要项失败先修复，受限而未验证则明确说明，不能将未完成记为通过。所有要求独立于历史聊天或账号记忆生效。
+
 用户明确调用本 skill 时，下列规范是本轮 UI 设计与交付的约束，优先于模型的默认审美、通用模板和自行选择的组件习惯。不能把“潮流 / 极简 / 更专业”等风格词当作取消这些约束的授权。只有用户明确修改某条规则，或指定的还原稿/既有品牌确实与它冲突，才记录并采用该例外；不从“自由设计、可使用素材”等笼统描述推断豁免。遵守宿主的系统、安全与执行权限；skill 不授予额外权限。
 
 用户要求只检查时不改代码；局部修改不扩大为全站重设计；实现授权不等于发布授权。无原型新建界面执行下面的完整合同；已有页面的小改动只检查受影响规则。
