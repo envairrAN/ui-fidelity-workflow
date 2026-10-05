@@ -1,84 +1,71 @@
 # UI Fidelity Workflow
 
-让 AI 少一点“看起来差不多”，多一点有证据的还原。
+从用户需求确定组件，从真实产品参考组合界面，再用明确规则验收。有 Figma 或截图时，忠实还原已确认设计。
 
-A portable agent skill for faithful UI implementation, precise visual feedback, and evidence-based debugging—without layers of CSS patches.
+A portable agent skill for needs-driven UI, reference-led composition and faithful design implementation.
 
-## 它解决什么
+## 两个板块
 
-- 将“生硬、不通透、收起方向不对”等视觉感受翻译成可验证约束。
-- 从 Figma 或截图读取布局、排版、组件、资源与状态，而非只模仿颜色。
-- 排查反复修不好的裁切、返回闪帧、动画路径和 CSS 覆盖问题。
-- 优先优化现有代码，尊重“只检查”“其他不变”等范围与授权。
-- 用同视口对照和过程帧验证，而不是把构建成功当作视觉成功。
+1. **需求到组件**：确认产品任务、视觉风格、主题颜色与目标端；缺少关键含义时主动追问，将需求映射为页面、动作、状态和验收条件。借鉴 Google PAIR 的相关方法，不把设计推断伪装成用户研究。
+2. **参考到可运行界面**：实际查看 Mobbin 或可访问的公开产品参考；没有匹配整屏时，跨产品搜索单个组件。记录来源和借用关系，组合后统一视觉，完成交互、动效与检查。
 
-不是 UI 模板，不限定玻璃、渐变或极简风；不训练模型权重，也不承诺自动达到像素级还原。
+## 当前无原型规则
 
-## 一条命令安装
+| 项目 | 要求 |
+|---|---|
+| 颜色与字体 | 中性白/灰/黑底，避免米黄；主题色由用户确认；PingFang；按实际背景检查文字与图标对比 |
+| 按钮与图标 | 普通按钮为完整胶囊，普通按钮纯色；使用有来源与许可的开源 SVG，实际描边 2px |
+| 导航与材质 | 移动端为液态玻璃悬浮胶囊；每个有内容的页面恰好一张突出材质主卡，两者分别承担导航与内容层级 |
+| 状态 | 未选中 Tab 不加悬停填色或按压缩放；选中底色与文字成对定义，保留键盘焦点 |
+| 对齐 | 检查数字/文字/图标相对容器的中心、基线、边距及重复组件一致性；几何与光学都要核对 |
+| 动效 | 页面切换、普通按钮反馈、内容进入；真实数值变化与完成状态按需加入数字/路径动画；支持中断和减少动态效果 |
+| 自检 | 同视口检查实际画面与中间帧；切页不能因临时滚动条使 Tab bar 弹动；失败先修，不以功能分数代替视觉验收 |
 
-需要 Node.js/npm 和支持的 AI 编程客户端。使用 [Vercel Skills CLI](https://github.com/vercel-labs/skills)：
+这些规则写在 skill 中，不依赖作者账号的聊天记忆。指定还原稿、既有品牌或用户明确修改优先；风格形容词本身不自动取消规则。局部修改保持范围，不顺带重设计。
+
+## 安装与调用
+
+使用 [Skills CLI](https://github.com/vercel-labs/skills)：
 
 ```sh
 npx skills add envairrAN/ui-fidelity-workflow --skill ui-fidelity-workflow
 ```
 
-按提示选择客户端与安装位置。它会下载此仓库里的 skill，不需要本仓库的 GitHub 登录凭据。
+或下载仓库，将完整的 `skills/ui-fidelity-workflow/` 放入客户端支持的 skills 目录。客户端和工具权限以实际环境为准；仅发送仓库链接不代表全部文档已被读取。
 
-例如，仅安装到当前项目的 Codex 或 Claude Code：
+无稿示例：
 
-```sh
-npx skills add envairrAN/ui-fidelity-workflow --skill ui-fidelity-workflow --agent codex
-npx skills add envairrAN/ui-fidelity-workflow --skill ui-fidelity-workflow --agent claude-code
-```
+> 使用 ui-fidelity-workflow，做一个音乐社区，包含发现、AI 描述生成与版本编辑、发布三个页面。黑白强对比＋荧光酸绿，桌面 Web 与 iPhone 浏览器。没有 Figma。关键需求不明确时先追问；先查看组件参考，再实现与逐项验收。
 
-安装前只查看可发现的 skill：
+有稿示例：
 
-```sh
-npx skills add envairrAN/ui-fidelity-workflow --list
-```
-
-这不是适用于所有 AI 的统一安装协议；能否自动加载，取决于客户端和安装器支持。执行外部安装器前，请查看它的来源、权限及将写入的位置。
-
-## 无需安装器
-
-从仓库 **Code → Download ZIP** 下载，保留 `skills/ui-fidelity-workflow/` 的完整目录，复制到客户端支持的 skills 目录。具体目录以该客户端文档为准。
-
-不支持 skills 的聊天工具也可使用 [提示词合集](docs/prompts.zh-CN.md)，或将 `SKILL.md` 和相关参考文档作为任务附件。仅发送仓库链接不代表 AI 已读取全部内容。
-
-## 如何使用
-
-安装后可对支持技能调用的 AI 说：
-
-> 使用 ui-fidelity-workflow，按照这份 Figma 还原指定页面。先确认目标节点、状态与视口，保留现有业务逻辑，用相同条件截图对照；没有验证的地方明确说明。
-
-或者：
-
-> 使用 ui-fidelity-workflow，检查这个返回闪屏问题。本轮只检查不动手。确认运行版本、实际生效样式与动画交接，给出证据和最小修复方案，不再叠加遮挡层。
-
-适用工具以当前环境为准。Figma 访问、浏览器控制、部署或文件删除需要宿主工具和用户授权；这个 skill 不会提供凭据或自动取得权限。
+> 使用 ui-fidelity-workflow，还原这个 Figma 的指定节点与状态。保留业务逻辑，先确认视口和设计版本，再实现并同条件对照；没有验证的部分明确说明。
 
 ## 内容导航
 
-| 内容 | 入口 |
+| 内容 | 文件 |
 |---|---|
-| AI 的执行指南 | [SKILL.md](skills/ui-fidelity-workflow/SKILL.md) |
-| 人可以直接说给 AI 的 14 类提示词 | [提示词](docs/prompts.zh-CN.md) |
-| 从协作经验提炼的原则 | [UI 协作经验](docs/principles.zh-CN.md) |
-| Figma / 截图还原 | [设计证据](skills/ui-fidelity-workflow/references/figma-and-fidelity.md) |
-| 动画、裁切、滚动和返回 | [布局与动画](skills/ui-fidelity-workflow/references/motion-and-layout.md) |
-| 反复失败与安全清理 | [排查流程](skills/ui-fidelity-workflow/references/debugging-and-cleanup.md) |
-| 品味与模糊需求追问 | [审美与追问](skills/ui-fidelity-workflow/references/taste-and-clarification.md) |
-| 验收与限制 | [验证](skills/ui-fidelity-workflow/references/verification.md) |
-| 情境评估用例 | [案例](skills/ui-fidelity-workflow/references/cases-and-evaluation.md) |
+| 执行入口与强制合同 | [SKILL.md](skills/ui-fidelity-workflow/SKILL.md) |
+| Figma / 截图还原 | [还原流程](skills/ui-fidelity-workflow/references/figma-and-fidelity.md) · [差异诊断](skills/ui-fidelity-workflow/references/fidelity-diagnostics.md) |
+| 沟通与模糊需求 | [主动澄清](skills/ui-fidelity-workflow/references/taste-and-clarification.md) · [14 类提示词](docs/prompts.zh-CN.md) |
+| 需求、参考、跨品类搜索 | [需求](skills/ui-fidelity-workflow/references/user-needs-and-components.md) · [组合](skills/ui-fidelity-workflow/references/reference-led-composition.md) · [组件迁移](skills/ui-fidelity-workflow/references/cross-domain-components.md) |
+| 开放视觉方向与证据 | [风格库](skills/ui-fidelity-workflow/references/visual-style-library.md) · [证据册](skills/ui-fidelity-workflow/references/reference-atlas.md) |
+| 视觉、材质、动效与验收 | [视觉](skills/ui-fidelity-workflow/references/modern-product-ui.md) · [材质](skills/ui-fidelity-workflow/references/materials-and-contrast.md) · [动效](skills/ui-fidelity-workflow/references/motion-recipes.md) · [验收](skills/ui-fidelity-workflow/references/verification.md) |
+| 方法来源与许可证 | [采用范围](skills/ui-fidelity-workflow/references/adopted-methods.md) · [协作原则](docs/principles.zh-CN.md) |
 
-## English summary
+## 维护与验证
 
-Install with the command above, then ask your agent to use `ui-fidelity-workflow`. The instructions are primarily in Chinese, with English discovery metadata. The skill covers visual constraints, Figma/screenshot evidence, scoped implementation, motion continuity, CSS ownership, and proportional verification. It is framework-independent guidance, not an executable UI generator. Client support and tool permissions still apply.
+```sh
+python scripts/validate.py
+python scripts/package.py
+```
 
-## 安全与来源
+验证脚本无第三方依赖，仅检查本仓库使用的简单元数据、相对引用、必要资源和分发边界，不代替浏览器与真实任务验证。打包脚本只包含 skill 与 LICENSE，输出到被 Git 忽略的 `local/`。
 
-本仓库只包含经过整理的通用方法、提示词与技能说明，不包含原产品代码、聊天正文、服务器配置、私有设计标识或 Git 历史。没有安装脚本、执行钩子、联网服务或遥测。安装器是独立第三方工具，不属于本 skill。
+公开仓库只维护技能文档、可选动效代码、诊断脚本和必要许可；本机演示、字体、截图、旧实验与发布素材放在 `local/`，不上传。没有自动执行钩子或遥测，也不要求安装额外动画依赖。
 
-案例是经验提炼，不是对某个线上产品当前根因的断言；评估用例不代表已执行测试。欢迎用具体反例完善方法，不添加只针对一次现象的普遍禁令。
+## 效果边界
 
-Maintained by **envairrAN**. Licensed under [MIT](LICENSE).
+它是工作流，不训练模型权重，不承诺像素级还原或稳定胜过无 skill。首稿、人工迭代稿和独立对照必须分开记录；没有原型时不使用“像素还原率”，不虚构用户验证、审美提升百分比或新账号实验。来源不可达时明确说明，不将搜索摘要冒充已观察的组件。
+
+Maintained by **envairrAN** · [MIT License](LICENSE)

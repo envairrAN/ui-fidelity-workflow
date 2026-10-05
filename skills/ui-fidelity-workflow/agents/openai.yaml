@@ -1,4 +1,4 @@
 interface:
-  display_name: "UI 高还原与细节排查"
-  short_description: "把视觉反馈转成可验证约束，读取设计证据，修复布局动效并收敛重复代码"
-  default_prompt: "使用 $ui-fidelity-workflow，根据设计稿与视觉反馈处理本轮 UI 任务，遵守指定范围并验证实际效果。"
+  display_name: "UI 需求、参考与高还原"
+  short_description: "先确认产品、风格、主题与平台，再由真实参考组合组件，有稿忠实还原并验证"
+  default_prompt: "使用 $ui-fidelity-workflow：将用户需求转成组件，确认产品方向、视觉风格、主题色和目标端，观察真实参考后组合界面；有稿忠实还原，未知关键需求主动追问。"

@@ -1,0 +1,23 @@
+/* Optional starter. Map these tokens to the host design system before adoption. */
+:root {
+  --ui-motion-ease: cubic-bezier(.23, 1, .32, 1);
+  --ui-motion-press: 120ms;
+  --ui-motion-enter: 220ms;
+  --ui-motion-exit: 160ms;
+  --ui-motion-number: 280ms;
+  --ui-motion-path: 260ms;
+}
+[data-ui-press] { transition: transform var(--ui-motion-press) var(--ui-motion-ease); }
+[data-ui-press]:active:not(:disabled):not([aria-disabled="true"]) { transform: scale(.98); }
+[data-ui-number] { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ui-motion-readable {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+.ui-motion-digits { display: inline-flex; vertical-align: baseline; line-height: 1.15; }
+.ui-motion-digit { position: relative; display: inline-block; width: 1ch; height: 1.15em; overflow: hidden; vertical-align: bottom; }
+.ui-motion-digit > span { position: absolute; inset: 0; text-align: center; }
+@media (prefers-reduced-motion: reduce) {
+  [data-ui-press] { transition: none; }
+  [data-ui-press]:active:not(:disabled):not([aria-disabled="true"]) { transform: none; }
+}

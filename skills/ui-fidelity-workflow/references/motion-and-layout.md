@@ -1,5 +1,7 @@
 # 布局与动画硬约束
 
+需要生成页面切换、点击、入场、数字滚动或图标路径动画时，先读 [基础动效配方](motion-recipes.md)；本文用于裁切、返回和材质交接的具体诊断。
+
 ## 正文、渐变、按钮
 
 确认谁负责正文可见区域、滚动、渐变和按钮布局。现有元素能承担职责就复用，不要求增加层级。
@@ -45,3 +47,10 @@
 隐藏滚动条只改变指定滚动容器外观，保留滚动、触控和键盘访问。仅聊天窗保留时，检查实际滚动的是 body、页面还是正文，用明确例外，别用全局 `*` 覆盖后不断补回。
 
 技术语义参考：[MDN overflow](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/overflow)、[MDN min-height](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/min-height)。诊断方法不代表已经确认某个项目的具体根因。
+
+
+## 切页时固定导航上下弹动
+
+先逐帧核对导航 rect、根节点 scrollWidth/clientWidth 与 clientHeight。页面 translateX 入场可能超出内容边界，短暂产生横向滚动条，压缩视口高度，使 bottom 固定的导航上弹；OFFBEAT 案例实测为 10px 横向溢出、15px 导航位移。将动画溢出裁切限定在正文容器（本例为既有 .workspace 的 overflow-x:clip），不要改导航 bottom 来补偿，也不关闭原有切页动画。注意 clip 与滚动容器语义、焦点轮廓和阴影边界；确认其他需要溢出的内容仍可使用。
+
+验收需覆盖普通动效、减少动态效果、各 Tab、滚动后切换和快速连点，包含中间帧；仅用 reduce 或静态截图会漏掉这一问题。
